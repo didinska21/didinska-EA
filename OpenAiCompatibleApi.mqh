@@ -142,17 +142,44 @@ bool OpenAiCompatibleChatCall(const string baseUrl,
      }
 
    // Respons sukses bentuknya:
-   // {"choices":[{"message":{"role":"assistant","content":"...jawaban AI..."}}], ...}
+   // {"choices":[{"message":{"role":"assistant","content":"...jawaban AI..."},
+   //   "finish_reason":"stop"}], ...}
    // JsonExtractString cari "content":" pertama yang ketemu -- untuk
    // format ini itu SUDAH TEPAT isi jawaban asisten (bukan system/user
    // message kita sendiri, karena itu di object request yang beda, bukan
    // di responseBody).
    string text = JsonExtractString(responseBody, "content");
+
+   // FIX (2026-09-09, v2.03): model REASONING (mis. openai/gpt-oss-120b di
+   // Groq) menaruh proses berpikirnya di field terpisah "reasoning". Kalau
+   // max_completion_tokens habis duluan dipakai buat reasoning, "content"
+   // bisa jadi string kosong walau HTTP-nya 200 OK (bukan error provider).
+   // Sebelumnya ini langsung dianggap GAGAL TOTAL ("field content tidak
+   // ada") -- padahal jawabannya sebenarnya ADA, cuma nyasar ke field
+   // "reasoning". Sekarang coba fallback ke situ dulu sebelum benar-benar
+   // dianggap gagal.
+   bool fromReasoningFallback = false;
    if(text == "")
      {
-      outError = "Respons provider tidak mengandung field 'content' yang bisa dibaca. Raw: " + responseBody;
+      text = JsonExtractString(responseBody, "reasoning");
+      fromReasoningFallback = (text != "");
+     }
+
+   if(text == "")
+     {
+      outError = "Respons provider tidak mengandung field 'content' atau 'reasoning' yang bisa dibaca. Raw: " + responseBody;
       return false;
      }
+
+   // Peringatan diagnostik (BUKAN kegagalan) -- muncul di Journal kalau
+   // jawaban AI kena fallback "reasoning" atau kepotong karena limit token.
+   // Biasanya tandanya Inp_MaxTokensAnalyst/Inp_MaxTokensSummarizer terlalu
+   // kecil untuk model reasoning yang sedang dipakai.
+   string finishReason = JsonExtractString(responseBody, "finish_reason");
+   if(fromReasoningFallback)
+      Print("[OpenAiCompatibleApi] Peringatan: field 'content' kosong, pakai fallback field 'reasoning'. Model reasoning kehabisan token budget -- pertimbangkan naikkan Inp_MaxTokensAnalyst/Inp_MaxTokensSummarizer, atau pakai model non-reasoning (mis. llama-3.3-70b-versatile) untuk 10 analis.");
+   else if(finishReason == "length")
+      Print("[OpenAiCompatibleApi] Peringatan: jawaban AI kemungkinan terpotong (finish_reason=length) -- pertimbangkan naikkan Inp_MaxTokensAnalyst/Inp_MaxTokensSummarizer.");
 
    outText = text;
    return true;

@@ -35,9 +35,24 @@
 //| AnthropicApi.mqh dan ketiga fungsi di TelegramApi.mqh -- semua     |
 //| sudah dihapus. Kalau Inp_UseAnthropic=true, atau notifikasi        |
 //| Telegram sebelumnya gagal terus, ini penyebabnya.                  |
+//|                                                                    |
+//| FIX v2.03 (2026-09-09): dari log live test -- pakai model          |
+//| REASONING (openai/gpt-oss-120b) buat 10 analis SEKALIGUS Penyimpul |
+//| dengan Inp_MaxTokensAnalyst=500 bikin [AI 7] GAGAL total ("field   |
+//| content tidak ada", padahal isinya ada tapi nyasar ke field        |
+//| "reasoning") dan [AI 8] jawabannya kepotong di tengah kalimat      |
+//| (token budget habis dipakai reasoning duluan). OpenAiCompatibleApi |
+//| .mqh sekarang fallback baca field "reasoning" kalau "content"      |
+//| kosong, plus nge-print peringatan di Journal kalau itu terjadi     |
+//| atau kalau finish_reason=="length" (jawaban kepotong). SARAN:      |
+//| kalau mau pakai gpt-oss-120b untuk 10 analis juga (bukan cuma      |
+//| Penyimpul), naikkan Inp_MaxTokensAnalyst jauh di atas 500 (mis.    |
+//| 1200+) -- atau paling simpel, balikin Inp_OpenAiModel ke default   |
+//| llama-3.3-70b-versatile (non-reasoning, lebih hemat token & cepat) |
+//| dan biarkan gpt-oss-120b HANYA jadi model Penyimpul.               |
 //+------------------------------------------------------------------+
 #property copyright "Didinska Signal"
-#property version   "2.02"
+#property version   "2.03"
 #property strict
 
 #include "AnthropicApi.mqh"

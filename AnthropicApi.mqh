@@ -123,6 +123,13 @@ bool AnthropicChatCall(const string apiKey,
       return false;
      }
 
+   // FIX (2026-09-09, v2.03): peringatan diagnostik (BUKAN kegagalan) kalau
+   // jawaban kepotong karena max_tokens habis -- sama semangatnya dengan
+   // pengecekan finish_reason di OpenAiCompatibleApi.mqh.
+   string stopReason = JsonExtractString(responseBody, "stop_reason");
+   if(stopReason == "max_tokens")
+      Print("[AnthropicApi] Peringatan: jawaban AI kemungkinan terpotong (stop_reason=max_tokens) -- pertimbangkan naikkan Inp_MaxTokensAnalyst/Inp_MaxTokensSummarizer.");
+
    outText = text;
    return true;
   }

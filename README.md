@@ -74,6 +74,12 @@ Progres tiap analis di-update secara live ke 1 pesan Telegram yang sama (edit pe
 
 ## Riwayat Perbaikan Bug
 
+### v2.03 (2026-09-09)
+- **Fix bug dari log live test:** `Inp_OpenAiModel` sempat diisi `openai/gpt-oss-120b` (model *reasoning*) untuk 10 analis juga, bukan cuma Penyimpul. Dengan `Inp_MaxTokensAnalyst=500`, model reasoning menghabiskan token budget-nya untuk "berpikir" duluan, sehingga field `content` di respons kadang **kosong total** (proses berpikirnya nyasar ke field terpisah `reasoning`) — ini yang bikin `[AI 7] GAGAL: Respons provider tidak mengandung field 'content'...` di log, padahal jawabannya sebenarnya ADA. Kasus lain (`[AI 8]`), jawabannya kepotong di tengah kalimat karena token habis (`finish_reason=length`), lolos tanpa error tapi opininya tidak lengkap.
+  - `OpenAiCompatibleApi.mqh` sekarang **fallback baca field `reasoning`** kalau `content` kosong, jadi analis tidak langsung gagal total.
+  - Ditambah **log peringatan** (Journal) kalau kena fallback tsb atau kalau `finish_reason=="length"` (Anthropic: `stop_reason=="max_tokens"`), supaya kelihatan kalau token budget kekecilan.
+  - **Saran konfigurasi:** kalau memang mau pakai model reasoning (`gpt-oss-120b` atau sejenis) untuk 10 analis, naikkan `Inp_MaxTokensAnalyst` jauh di atas default 500 (coba 1200+). Kalau tidak perlu, biarkan `Inp_OpenAiModel` di default `llama-3.3-70b-versatile` (non-reasoning, lebih cepat & hemat token) dan pakai model reasoning **hanya** untuk `Inp_OpenAiSummaryModel` (Penyimpul), sesuai desain awal.
+
 ### v2.02 (2026-09-09)
 - **Fix bug kritis (lanjutan v2.01):** bug `ArrayResize(postData, bodyLen - 1)` yang memotong byte terakhir (`}` penutup JSON) sebelumnya cuma diperbaiki di `OpenAiCompatibleApi.mqh` — ternyata bug yang SAMA masih ada di `AnthropicApi.mqh` (`AnthropicChatCall`) dan ketiga fungsi di `TelegramApi.mqh` (`TelegramSendMessage`, `TelegramSendMessageEx`, `TelegramEditMessage`). Semua sudah dihapus. Dampak sebelumnya: kalau `Inp_UseAnthropic=true`, panggilan AI ke Anthropic gagal dengan error mirip "unexpected end of JSON input"; dan semua kirim/edit pesan Telegram berpotensi gagal.
 
@@ -93,6 +99,7 @@ Progres tiap analis di-update secara live ke 1 pesan Telegram yang sama (edit pe
 | `expert removed` lalu `connection lost` | Masalah jaringan sesaat, biasanya auto-reconnect. Cek posisi tetap 0 sebelum re-attach. |
 | `[Init] ... Inp_OpenAiApiKey (fallback)/Inp_OpenAiBaseUrl kosong` | Base URL kosong, atau fallback kosong padahal masih ada slot individual yang belum terisi (lihat v2.01 di atas). |
 | `[AI n] GAGAL: Provider balas HTTP 400: unexpected end of JSON input` | Bug trimming body JSON — pastikan pakai `OpenAiCompatibleApi.mqh` versi terbaru (lihat changelog di atas). |
+| `[AI n] GAGAL: ...tidak mengandung field 'content' atau 'reasoning'...` ATAU peringatan `finish_reason=length` / fallback `reasoning` di Journal | Model reasoning (mis. `gpt-oss-120b`) kehabisan token budget — naikkan `Inp_MaxTokensAnalyst`/`Inp_MaxTokensSummarizer`, atau pakai model non-reasoning untuk 10 analis (lihat v2.03 di atas). |
 | `WebRequest gagal (error 4060)` | URL endpoint belum di-whitelist di Tools > Options > Expert Advisors. |
 | `[Telegram] Gagal edit pesan (HTTP 1001)` | Biasanya sementara/tidak fatal — cek token & chat ID Telegram kalau berulang terus. |
 
