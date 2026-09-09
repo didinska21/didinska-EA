@@ -19,14 +19,18 @@
 //|      https://api.groq.com       (default -- provider AI live)    |
 //|      https://api.telegram.org   (notifikasi)                     |
 //|      https://api.anthropic.com  (HANYA kalau Inp_UseAnthropic=true)|
-//| 3. Isi minimal Inp_OpenAiApiKey (fallback bersama), Inp_TelegramBotToken,|
-//|    Inp_TelegramChatId. Inp_ApiKey_1..10 & Inp_ApiKey_Summarizer     |
-//|    OPSIONAL -- kalau dikosongkan, otomatis pakai fallback bersama  |
-//|    (tapi lebih rawan kena rate limit Groq kalau semua 1 key).      |
+//| 3. Isi minimal Inp_OpenAiApiKey (fallback bersama) ATAU isi SEMUA  |
+//|    11 slot Inp_ApiKey_1..10 + Inp_ApiKey_Summarizer satu-satu --   |
+//|    salah satu dari dua opsi ini WAJIB dipenuhi. Kalau isi 11 slot  |
+//|    lengkap, field fallback boleh dikosongkan.                     |
 //| 4. Attach ke chart, centang "Allow Algo Trading".                  |
+//|                                                                    |
+//| FIX (2026-09-09): validasi OnInit() dulu WAJIB Inp_OpenAiApiKey    |
+//| (fallback) terisi meskipun 11 slot individual sudah lengkap --     |
+//| sekarang fallback jadi opsional selama semua 11 slot terisi.       |
 //+------------------------------------------------------------------+
 #property copyright "Didinska Signal"
-#property version   "2.00"
+#property version   "2.01"
 #property strict
 
 #include "AnthropicApi.mqh"
@@ -194,15 +198,39 @@ int OnInit()
   {
    g_symbol = _Symbol;
 
-   if(Inp_UseAnthropic && Inp_AnthropicApiKey == "")
+   if(Inp_UseAnthropic)
      {
-      Print("[Init] Inp_UseAnthropic=true tapi Inp_AnthropicApiKey (fallback) kosong.");
-      return INIT_PARAMETERS_INCORRECT;
+      // Anthropic: cukup 1 key fallback (belum ada skema 11 slot terpisah
+      // untuk Anthropic di versi ini), jadi tetap wajib diisi.
+      if(Inp_AnthropicApiKey == "")
+        {
+         Print("[Init] Inp_UseAnthropic=true tapi Inp_AnthropicApiKey (fallback) kosong.");
+         return INIT_PARAMETERS_INCORRECT;
+        }
      }
-   if(!Inp_UseAnthropic && (Inp_OpenAiApiKey == "" || Inp_OpenAiBaseUrl == ""))
+   else
      {
-      Print("[Init] Inp_UseAnthropic=false tapi Inp_OpenAiApiKey (fallback)/Inp_OpenAiBaseUrl kosong.");
-      return INIT_PARAMETERS_INCORRECT;
+      if(Inp_OpenAiBaseUrl == "")
+        {
+         Print("[Init] Inp_OpenAiBaseUrl kosong -- endpoint chat-completions wajib diisi.");
+         return INIT_PARAMETERS_INCORRECT;
+        }
+
+      // Fallback (Inp_OpenAiApiKey) HANYA wajib diisi kalau ADA slot
+      // individual (Inp_ApiKey_1..10 / Inp_ApiKey_Summarizer) yang masih
+      // kosong -- karena slot kosong itu bakal jatuh ke fallback saat
+      // dipanggil (lihat GetApiKeyForAnalyst/GetApiKeyForSummarizer).
+      // Kalau semua 11 slot sudah lengkap, fallback boleh dikosongkan.
+      bool semuaSlotTerisi = (Inp_ApiKey_1 != "" && Inp_ApiKey_2 != "" && Inp_ApiKey_3 != "" &&
+                              Inp_ApiKey_4 != "" && Inp_ApiKey_5 != "" && Inp_ApiKey_6 != "" &&
+                              Inp_ApiKey_7 != "" && Inp_ApiKey_8 != "" && Inp_ApiKey_9 != "" &&
+                              Inp_ApiKey_10 != "" && Inp_ApiKey_Summarizer != "");
+
+      if(Inp_OpenAiApiKey == "" && !semuaSlotTerisi)
+        {
+         Print("[Init] Inp_UseAnthropic=false, Inp_OpenAiApiKey (fallback) kosong, dan masih ada slot Inp_ApiKey_1..10/Inp_ApiKey_Summarizer yang kosong. Isi salah satu: fallback ATAU lengkapi semua 11 slot.");
+         return INIT_PARAMETERS_INCORRECT;
+        }
      }
 
    if(!MarketSnapshot_Init(g_symbol, Inp_Timeframe, Inp_HtfTimeframe))
