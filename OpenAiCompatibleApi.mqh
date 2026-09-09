@@ -14,12 +14,25 @@
 //|   Groq:       https://api.groq.com/openai/v1/chat/completions      |
 //|   OpenRouter: https://openrouter.ai/api/v1/chat/completions        |
 //| Cek dashboard/dokumentasi provider kamu buat tahu persis URL-nya.  |
+//|                                                                    |
+//| FIX (2026-09-09):                                                  |
+//| 1. Bug ArrayResize(postData, bodyLen-1) DIHAPUS -- StringToCharArray|
+//|    dipanggil dengan parameter `count` diisi eksplisit (bukan -1),  |
+//|    yang berarti MQL5 TIDAK menambahkan null-terminator ke array.   |
+//|    Trimming byte terakhir yang lama JUSTRU memotong karakter '}'   |
+//|    penutup JSON, bikin SEMUA request selalu gagal dengan provider  |
+//|    error "unexpected end of JSON input".                          |
+//| 2. OpenAiJsonEscape() diperbaiki supaya aman untuk emoji/karakter  |
+//|    di luar BMP (surrogate pair UTF-16) -- sebelumnya bisa kepotong |
+//|    kalau opini AI mengandung emoji, dan control character < 0x20  |
+//|    sekarang di-escape jadi \u00XX (dulu lolos mentah).             |
 //+------------------------------------------------------------------+
 #property strict
 #include "JsonHelper.mqh"
 
 //+------------------------------------------------------------------+
 //| Escape string biar aman jadi nilai string di dalam JSON.           |
+//| Aman untuk surrogate pair (emoji dsb) dan control character.       |
 //+------------------------------------------------------------------+
 string OpenAiJsonEscape(const string src)
   {
@@ -35,7 +48,27 @@ string OpenAiJsonEscape(const string src)
          case '\n': out += "\\n";  break;
          case '\r': out += "\\r";  break;
          case '\t': out += "\\t";  break;
-         default:   out += StringSubstr(src, i, 1); break;
+         default:
+            if(ch < 0x20)
+              {
+               // Control character lain (mis. \b \f atau sampah dari API) --
+               // JSON strict tidak terima raw control char, wajib di-escape.
+               out += StringFormat("\\u%04x", ch);
+              }
+            else if(ch >= 0xD800 && ch <= 0xDBFF && (i + 1) < len)
+              {
+               // High surrogate -- separuh pertama dari 1 emoji/karakter
+               // astral. Ambil sekaligus dengan low surrogate pasangannya,
+               // jangan dipotong sendirian (kalau kepotong, konversi ke
+               // UTF-8 di StringToCharArray bisa gagal/berhenti di tengah).
+               out += StringSubstr(src, i, 2);
+               i++; // skip low surrogate; i++ di for-loop majuin 1 lagi
+              }
+            else
+              {
+               out += StringSubstr(src, i, 1);
+              }
+            break;
         }
      }
    return out;
@@ -76,8 +109,12 @@ bool OpenAiCompatibleChatCall(const string baseUrl,
 
    uchar postData[];
    int bodyLen = StringToCharArray(body, postData, 0, StringLen(body), CP_UTF8);
-   if(bodyLen > 0)
-      ArrayResize(postData, bodyLen - 1);
+   // PENTING: `count` di atas diisi eksplisit (StringLen(body), bukan -1),
+   // jadi StringToCharArray TIDAK menambahkan null-terminator ke array --
+   // postData sudah pas panjangnya. JANGAN ArrayResize(postData, bodyLen-1)
+   // di sini -- itu bug lama yang memotong byte terakhir body (karakter '}'
+   // penutup JSON) dan bikin SEMUA request gagal dengan provider error
+   // "unexpected end of JSON input".
 
    uchar result[];
    string resultHeaders;

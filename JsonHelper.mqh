@@ -94,4 +94,31 @@ bool JsonHasKey(const string json, const string key)
   {
    return StringFind(json, "\"" + key + "\":") >= 0;
   }
+
+//+------------------------------------------------------------------+
+//| Ambil nilai NUMERIK (bukan string berkutip) dari `"<key>":123`.    |
+//| Balikin -1 kalau key tidak ketemu. Dipakai buat baca "message_id"  |
+//| dari respons Telegram (angka polos, bukan "message_id":"123").    |
+//+------------------------------------------------------------------+
+long JsonExtractInt(const string json, const string key)
+  {
+   string needle = "\"" + key + "\":";
+   int start = StringFind(json, needle);
+   if(start < 0) return -1;
+   start += StringLen(needle);
+
+   int len = StringLen(json);
+   int i = start;
+   while(i < len && StringGetCharacter(json, i) == ' ') i++;
+
+   string numStr = "";
+   while(i < len)
+     {
+      ushort ch = StringGetCharacter(json, i);
+      if((ch >= '0' && ch <= '9') || ch == '-') { numStr += StringSubstr(json, i, 1); i++; }
+      else break;
+     }
+   if(numStr == "") return -1;
+   return StringToInteger(numStr);
+  }
 //+------------------------------------------------------------------+
