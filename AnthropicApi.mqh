@@ -80,10 +80,12 @@ bool AnthropicChatCall(const string apiKey,
 
    uchar postData[];
    int bodyLen = StringToCharArray(body, postData, 0, StringLen(body), CP_UTF8);
-   // StringToCharArray nambahin 1 byte null terminator di akhir -- buang
-   // supaya body yang dikirim persis tanpa byte nol nyasar.
-   if(bodyLen > 0)
-      ArrayResize(postData, bodyLen - 1);
+   // FIX (sama bug seperti OpenAiCompatibleApi.mqh): `count` di atas diisi
+   // eksplisit (StringLen(body), bukan -1), jadi StringToCharArray TIDAK
+   // menambahkan null-terminator ke array -- postData sudah pas panjangnya.
+   // JANGAN ArrayResize(postData, bodyLen-1) di sini -- itu memotong byte
+   // TERAKHIR body asli (karakter '}' penutup JSON), bikin request selalu
+   // gagal dengan error provider "unexpected end of JSON input".
 
    uchar result[];
    string resultHeaders;

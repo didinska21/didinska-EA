@@ -28,9 +28,16 @@
 //| FIX (2026-09-09): validasi OnInit() dulu WAJIB Inp_OpenAiApiKey    |
 //| (fallback) terisi meskipun 11 slot individual sudah lengkap --     |
 //| sekarang fallback jadi opsional selama semua 11 slot terisi.       |
+//|                                                                    |
+//| FIX v2.02 (2026-09-09): bug ArrayResize(postData, bodyLen-1) yang  |
+//| memotong byte '}' penutup JSON (sebelumnya cuma dibenerin di       |
+//| OpenAiCompatibleApi.mqh) ternyata MASIH ADA juga di                |
+//| AnthropicApi.mqh dan ketiga fungsi di TelegramApi.mqh -- semua     |
+//| sudah dihapus. Kalau Inp_UseAnthropic=true, atau notifikasi        |
+//| Telegram sebelumnya gagal terus, ini penyebabnya.                  |
 //+------------------------------------------------------------------+
 #property copyright "Didinska Signal"
-#property version   "2.01"
+#property version   "2.02"
 #property strict
 
 #include "AnthropicApi.mqh"

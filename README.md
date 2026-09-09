@@ -74,6 +74,9 @@ Progres tiap analis di-update secara live ke 1 pesan Telegram yang sama (edit pe
 
 ## Riwayat Perbaikan Bug
 
+### v2.02 (2026-09-09)
+- **Fix bug kritis (lanjutan v2.01):** bug `ArrayResize(postData, bodyLen - 1)` yang memotong byte terakhir (`}` penutup JSON) sebelumnya cuma diperbaiki di `OpenAiCompatibleApi.mqh` — ternyata bug yang SAMA masih ada di `AnthropicApi.mqh` (`AnthropicChatCall`) dan ketiga fungsi di `TelegramApi.mqh` (`TelegramSendMessage`, `TelegramSendMessageEx`, `TelegramEditMessage`). Semua sudah dihapus. Dampak sebelumnya: kalau `Inp_UseAnthropic=true`, panggilan AI ke Anthropic gagal dengan error mirip "unexpected end of JSON input"; dan semua kirim/edit pesan Telegram berpotensi gagal.
+
 ### v2.01 (2026-09-09)
 - **Fix validasi `OnInit()`:** sebelumnya `Inp_OpenAiApiKey` (fallback) selalu wajib diisi meskipun semua 11 slot key individual sudah lengkap — EA menolak jalan (`INIT_PARAMETERS_INCORRECT`) walau sebenarnya tidak butuh fallback sama sekali. Sekarang fallback hanya wajib kalau ada slot yang masih kosong.
 

@@ -54,8 +54,11 @@ bool TelegramSendMessage(const string botToken, const string chatId, const strin
 
    uchar postData[];
    int bodyLen = StringToCharArray(body, postData, 0, StringLen(body), CP_UTF8);
-   if(bodyLen > 0)
-      ArrayResize(postData, bodyLen - 1);
+   // FIX: `count` diisi eksplisit -> StringToCharArray TIDAK menambahkan
+   // null-terminator, jadi postData sudah pas panjangnya. ArrayResize(
+   // postData, bodyLen-1) yang lama memotong byte TERAKHIR body asli
+   // (karakter '}' penutup JSON), bikin request Telegram gagal/berpotensi
+   // ditolak sebagai body JSON tidak valid -- JANGAN dipanggil di sini.
 
    uchar result[];
    string resultHeaders;
@@ -130,7 +133,8 @@ bool TelegramSendMessageEx(const string botToken, const string chatId, const str
 
    uchar postData[];
    int bodyLen = StringToCharArray(body, postData, 0, StringLen(body), CP_UTF8);
-   if(bodyLen > 0) ArrayResize(postData, bodyLen - 1);
+   // FIX: lihat catatan di TelegramSendMessage() -- JANGAN ArrayResize
+   // (postData, bodyLen-1) di sini, itu memotong '}' penutup JSON asli.
 
    uchar result[];
    string resultHeaders;
@@ -171,7 +175,8 @@ bool TelegramEditMessage(const string botToken, const string chatId, const long 
 
    uchar postData[];
    int bodyLen = StringToCharArray(body, postData, 0, StringLen(body), CP_UTF8);
-   if(bodyLen > 0) ArrayResize(postData, bodyLen - 1);
+   // FIX: lihat catatan di TelegramSendMessage() -- JANGAN ArrayResize
+   // (postData, bodyLen-1) di sini, itu memotong '}' penutup JSON asli.
 
    uchar result[];
    string resultHeaders;
