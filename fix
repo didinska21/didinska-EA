@@ -1,120 +1,15 @@
-#property strict
-#property script_show_inputs
-
-input string BackendURL = "http://127.0.0.1:8000";
-
-void OnStart()
+// Directional safety: NEVER create opposite-direction orders
+if(m_plan.signal == "BUY")
 {
-   Print("========================================");
-   Print(" MT5 -> SCALP PLAN CONNECTION TEST");
-   Print("========================================");
-
-   // --- Current tick
-   MqlTick tick;
-   if(!SymbolInfoTick(_Symbol, tick))
-   {
-      Print("ERROR: Cannot read current tick for ", _Symbol);
-      return;
-   }
-
-   // --- Daily market data
-   double daily_high = iHigh(_Symbol, PERIOD_D1, 0);
-   double daily_low  = iLow(_Symbol, PERIOD_D1, 0);
-   double daily_open = iOpen(_Symbol, PERIOD_D1, 0);
-
-   // --- Current volume & spread
-   long volume = iVolume(_Symbol, PERIOD_H1, 0);
-   long spread = SymbolInfoInteger(_Symbol, SYMBOL_SPREAD);
-
-   // --- Actual account data
-   double balance = AccountInfoDouble(ACCOUNT_BALANCE);
-   double equity  = AccountInfoDouble(ACCOUNT_EQUITY);
-
-   // --- Count open positions for current symbol
-   int open_positions = 0;
-
-   for(int i = 0; i < PositionsTotal(); i++)
-   {
-      ulong ticket = PositionGetTicket(i);
-
-      if(ticket > 0)
-      {
-         if(PositionGetString(POSITION_SYMBOL) == _Symbol)
-            open_positions++;
-      }
-   }
-
-   // --- Build JSON
-   string json = "{";
-
-   json += "\"symbol\":\"" + _Symbol + "\",";
-   json += "\"bid\":" + DoubleToString(tick.bid, _Digits) + ",";
-   json += "\"ask\":" + DoubleToString(tick.ask, _Digits) + ",";
-   json += "\"spread\":" + IntegerToString((int)spread) + ",";
-   json += "\"volume\":" + IntegerToString((int)volume) + ",";
-   json += "\"daily_high\":" + DoubleToString(daily_high, _Digits) + ",";
-   json += "\"daily_low\":" + DoubleToString(daily_low, _Digits) + ",";
-   json += "\"daily_open\":" + DoubleToString(daily_open, _Digits) + ",";
-   json += "\"account_balance\":" + DoubleToString(balance, 2) + ",";
-   json += "\"account_equity\":" + DoubleToString(equity, 2) + ",";
-   json += "\"timeframe\":\"M5\",";
-   json += "\"open_positions\":" + IntegerToString(open_positions);
-
-   json += "}";
-
-   // --- Endpoint
-   string url = BackendURL + "/api/v1/scalp/plan";
-   string headers = "Content-Type: application/json\r\n";
-
-   char post_data[];
-   char result[];
-   string result_headers;
-
-   StringToCharArray(
-      json,
-      post_data,
-      0,
-      StringLen(json)
-   );
-
-   Print("Symbol: ", _Symbol);
-   Print("Balance: ", DoubleToString(balance, 2));
-   Print("Equity: ", DoubleToString(equity, 2));
-   Print("Open positions: ", open_positions);
-   Print("URL: ", url);
-   Print("Request: ", json);
-
-   ResetLastError();
-
-   int http_code = WebRequest(
-      "POST",
-      url,
-      headers,
-      5000,
-      post_data,
-      result,
-      result_headers
-   );
-
-   int error_code = GetLastError();
-
-   Print("HTTP Code: ", http_code);
-   Print("MT5 Error: ", error_code);
-
-   if(http_code >= 200 && http_code < 300)
-   {
-      string response = CharArrayToString(result);
-
-      Print("SUCCESS: Scalp Plan received!");
-      Print("Response: ", response);
-   }
-   else
-   {
-      Print("FAILED: Scalp Plan request failed.");
-      Print("Response: ", CharArrayToString(result));
-   }
-
-   Print("========================================");
-   Print(" TEST COMPLETE");
-   Print("========================================");
+   m_plan.sell_orders = 0;
+}
+else if(m_plan.signal == "SELL")
+{
+   m_plan.buy_orders = 0;
+}
+else
+{
+   // HOLD or unknown signal = absolutely no orders
+   m_plan.buy_orders = 0;
+   m_plan.sell_orders = 0;
 }
