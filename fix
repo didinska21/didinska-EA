@@ -1,36 +1,14 @@
-2026.09.14 12:42:00.150	TestAPIs (XAUUSD,M1)	========================================
-2026.09.14 12:42:00.151	TestAPIs (XAUUSD,M1)	 DAX V2 API CONNECTION TEST
-2026.09.14 12:42:00.151	TestAPIs (XAUUSD,M1)	========================================
-2026.09.14 12:42:00.151	TestAPIs (XAUUSD,M1)	
-2026.09.14 12:42:00.151	TestAPIs (XAUUSD,M1)	--- Testing NewsAPI ---
-2026.09.14 12:42:00.152	TestAPIs (XAUUSD,M1)	NewsAPI: Connection failed - using offline mode
-2026.09.14 12:42:00.152	TestAPIs (XAUUSD,M1)	NewsAPI: FAILED to initialize
-2026.09.14 12:42:00.152	TestAPIs (XAUUSD,M1)	
-2026.09.14 12:42:00.152	TestAPIs (XAUUSD,M1)	--- Testing Groq AI ---
-2026.09.14 12:42:00.152	TestAPIs (XAUUSD,M1)	GroqAI: No API key provided - using built-in analysis
-2026.09.14 12:42:00.152	TestAPIs (XAUUSD,M1)	GroqAI: Module loaded successfully
-2026.09.14 12:42:00.152	TestAPIs (XAUUSD,M1)	GroqAI: Built-in analysis test
-2026.09.14 12:42:00.152	TestAPIs (XAUUSD,M1)	  Signal: BUY
-2026.09.14 12:42:00.152	TestAPIs (XAUUSD,M1)	  Risk Score: 38.5%
-2026.09.14 12:42:00.152	TestAPIs (XAUUSD,M1)	  Confidence: 63.0%
-2026.09.14 12:42:00.152	TestAPIs (XAUUSD,M1)	  Reasoning: Built-in analysis: Buy=0.62 Sell=-0.02
-2026.09.14 12:42:00.152	TestAPIs (XAUUSD,M1)	GroqAI: Position sizing test - Lot: 100.00
-2026.09.14 12:42:00.152	TestAPIs (XAUUSD,M1)	GroqAI: Dynamic SL test - SL: 1.07000
-2026.09.14 12:42:00.152	TestAPIs (XAUUSD,M1)	GroqAI: Dynamic TP test - TP: 1.12000
-2026.09.14 12:42:00.153	TestAPIs (XAUUSD,M1)	GroqAI: Market regime: TRENDING
-2026.09.14 12:42:00.153	TestAPIs (XAUUSD,M1)	GroqAI: PASSED
-2026.09.14 12:42:00.153	TestAPIs (XAUUSD,M1)	========================================
-2026.09.14 12:42:00.153	TestAPIs (XAUUSD,M1)	 TEST COMPLETE
-2026.09.14 12:42:00.153	TestAPIs (XAUUSD,M1)	========================================
-2026.09.14 12:48:09.388	TestBackend (XAUUSD,M1)	========================================
-2026.09.14 12:48:09.388	TestBackend (XAUUSD,M1)	 MT5 -> FASTAPI CONNECTION TEST
-2026.09.14 12:48:09.388	TestBackend (XAUUSD,M1)	========================================
-2026.09.14 12:48:09.461	TestBackend (XAUUSD,M1)	URL: http://127.0.0.1:8000/api/v1/trading/signal
-2026.09.14 12:48:09.461	TestBackend (XAUUSD,M1)	Request: {"symbol":"XAUUSD","bid":4289.28000,"ask":4289.59000,"spread":31,"volume":11430,"daily_high":4355.27000,"daily_low":4253.48000,"daily_open":4328.26000}
-2026.09.14 12:48:10.500	TestBackend (XAUUSD,M1)	HTTP Code: 1001
-2026.09.14 12:48:10.500	TestBackend (XAUUSD,M1)	MT5 Error: 5203
-2026.09.14 12:48:10.500	TestBackend (XAUUSD,M1)	FAILED: FastAPI request failed.
-2026.09.14 12:48:10.500	TestBackend (XAUUSD,M1)	Response: 
-2026.09.14 12:48:10.500	TestBackend (XAUUSD,M1)	========================================
-2026.09.14 12:48:10.500	TestBackend (XAUUSD,M1)	 TEST COMPLETE
-2026.09.14 12:48:10.500	TestBackend (XAUUSD,M1)	========================================
+{
+  "symbol": "XAUUSD",
+  "bid": 4283.97000,
+  "ask": 4284.27000,
+  "spread": 30,
+  "volume": 14405,
+  "daily_high": 4355.27000,
+  "daily_low": 4253.48000,
+  "daily_open": 0,
+  "account_balance": 40,
+  "account_equity": 40,
+  "timeframe": "M5",
+  "open_positions": 0
+}
