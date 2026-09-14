@@ -1,15 +1,10 @@
-// Directional safety: NEVER create opposite-direction orders
-if(m_plan.signal == "BUY")
+// Spread protection: never open a new grid when spread is too high
+if(m_spread > InpMaxSpread)
 {
-   m_plan.sell_orders = 0;
-}
-else if(m_plan.signal == "SELL")
-{
-   m_plan.buy_orders = 0;
-}
-else
-{
-   // HOLD or unknown signal = absolutely no orders
-   m_plan.buy_orders = 0;
-   m_plan.sell_orders = 0;
+   if(live == 0 && pend > 0)
+      PurgeAll();
+
+   Print("BLOCKED: Spread too high. Current=", m_spread,
+         " Max=", InpMaxSpread);
+   return;
 }
