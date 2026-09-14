@@ -1,2 +1,61 @@
-int CountPositions() { int c=0; for(int i=PositionsTotal()-1;i>=0;i--) if(m_position.SelectByIndex(i) && m_position.Magic()==InpMagicNumber && m_position.Symbol()==_Symbol) c++; return c; }
-int CountOrders() { int c=0; for(int i=OrdersTotal()-1;i>=0;i--) if(m_order.SelectByIndex(i) && m_order.Magic()==InpMagicNumber && m_order.Symbol()==_Symbol) c++; return c; }
+//+------------------------------------------------------------------+
+void ManageGrid()
+{
+   int live = CountPositions();
+   int pend = CountOrders();
+   
+   // Cancel opposite grid when position exists (save one direction)
+   if(live > 0 && pend > 0) CancelOpposite();
+   
+   // Only build grid if we have valid plan data
+   bool valid = m_plan.lot_size >= 0.01 && m_plan.grid_pts >= 5 && m_plan.sl_pts >= 10;
+   if(!valid) return;
+   
+   // Spread protection: never open a new grid when spread is too high
+   if(m_spread > InpMaxSpread)
+   {
+      if(live == 0 && pend > 0)
+         PurgeAll();
+   
+      Print("BLOCKED: Spread too high. Current=", m_spread,
+            " Max=", InpMaxSpread);
+      return;
+   }
+
+   // Rate limit: don't attempt grid more than once per 3 seconds when failing
+   int cooldown = m_market_mode ? 10 : 3;
+   if((int)(TimeCurrent() - m_last_grid_attempt) < cooldown) return;
+
+   // Market mode: FTMO fallback - use market orders instead of pending
+   if(m_market_mode)
+   {
+      if(live == 0)
+      {
+         m_last_grid_attempt = TimeCurrent();
+         BuildMarketOrders();
+      }
+      return;
+   }
+
+   // Pending order mode
+   if(live == 0)
+   {
+      if(pend == 0)
+      {
+         m_last_grid_attempt = TimeCurrent();
+         BuildGrid();
+      }
+      else
+      {
+         double mid = (m_bid + m_ask) / 2;
+         double nearest = GetNearestOrder();
+         double point = SymbolInfoDouble(_Symbol, SYMBOL_POINT);
+         if(nearest > 0 && MathAbs(nearest - mid) > m_plan.grid_pts * 4 * point)
+         {
+            PurgeAll();
+            m_last_grid_attempt = TimeCurrent();
+            BuildGrid();
+         }
+      }
+   }
+}
