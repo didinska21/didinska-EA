@@ -1,10 +1,2 @@
-// Spread protection: never open a new grid when spread is too high
-if(m_spread > InpMaxSpread)
-{
-   if(live == 0 && pend > 0)
-      PurgeAll();
-
-   Print("BLOCKED: Spread too high. Current=", m_spread,
-         " Max=", InpMaxSpread);
-   return;
-}
+int CountPositions() { int c=0; for(int i=PositionsTotal()-1;i>=0;i--) if(m_position.SelectByIndex(i) && m_position.Magic()==InpMagicNumber && m_position.Symbol()==_Symbol) c++; return c; }
+int CountOrders() { int c=0; for(int i=OrdersTotal()-1;i>=0;i--) if(m_order.SelectByIndex(i) && m_order.Magic()==InpMagicNumber && m_order.Symbol()==_Symbol) c++; return c; }
