@@ -1,0 +1,62 @@
+GroqNewsGridScalper.mq5			
+Trade.mqh			
+Object.mqh			
+StdLibErr.mqh			
+OrderInfo.mqh			
+HistoryOrderInfo.mqh			
+PositionInfo.mqh			
+DealInfo.mqh			
+AccountInfo.mqh			
+NewsAPI.mqh			
+ArrayString.mqh			
+Array.mqh			
+GroqAI.mqh			
+'ENUM_SIGNAL_TYPE' - unexpected token, probably type is missing?	GroqAI.mqh	34	4
+'signal' - semicolon expected	GroqAI.mqh	34	21
+cannot access to private member 'm_max_risk_per_trade' declared in class 'CGroqAI'	GroqNewsGridScalper.mq5	102	9
+   see declaration of variable 'CGroqAI::m_max_risk_per_trade'	GroqAI.mqh	96	19
+implicit conversion from 'bool' to 'string'	NewsAPI.mqh	222	34
+implicit conversion from 'bool' to 'string'	NewsAPI.mqh	564	28
+possible loss of data due to type conversion from 'long' to 'int'	NewsAPI.mqh	596	16
+possible loss of data due to type conversion from 'long' to 'int'	NewsAPI.mqh	597	17
+possible loss of data due to type conversion from 'long' to 'int'	NewsAPI.mqh	598	15
+possible loss of data due to type conversion from 'long' to 'int'	NewsAPI.mqh	599	16
+possible loss of data due to type conversion from 'long' to 'int'	NewsAPI.mqh	600	15
+possible loss of data due to type conversion from 'long' to 'int'	NewsAPI.mqh	601	15
+undeclared identifier 'signal'	GroqAI.mqh	448	14
+'signal' - cannot convert enum	GroqAI.mqh	448	14
+undeclared identifier 'signal'	GroqAI.mqh	457	14
+'signal' - cannot convert enum	GroqAI.mqh	457	14
+undeclared identifier 'signal'	GroqAI.mqh	506	17
+'signal' - cannot convert enum	GroqAI.mqh	506	17
+undeclared identifier 'signal'	GroqAI.mqh	511	17
+'signal' - cannot convert enum	GroqAI.mqh	511	17
+undeclared identifier 'signal'	GroqAI.mqh	516	17
+'signal' - cannot convert enum	GroqAI.mqh	516	17
+undeclared identifier 'signal'	GroqAI.mqh	526	17
+'signal' - cannot convert enum	GroqAI.mqh	526	17
+undeclared identifier 'signal'	GroqAI.mqh	531	22
+'signal' - cannot convert enum	GroqAI.mqh	531	22
+implicit conversion from 'ushort' to 'string'	GroqAI.mqh	578	19
+implicit conversion from 'ushort' to 'string'	GroqAI.mqh	598	19
+possible loss of data due to type conversion from 'long' to 'double'	GroqNewsGridScalper.mq5	198	25
+possible loss of data due to type conversion from 'long' to 'double'	GroqNewsGridScalper.mq5	212	25
+undeclared identifier 'signal'	GroqNewsGridScalper.mq5	254	23
+'signal' - illegal switch expression type	GroqNewsGridScalper.mq5	254	23
+undeclared identifier 'signal'	GroqNewsGridScalper.mq5	273	47
+'signal' - parameter for EnumToString must be an enumeration	GroqNewsGridScalper.mq5	273	47
+undeclared identifier 'signal'	GroqNewsGridScalper.mq5	372	22
+'signal' - cannot convert enum	GroqNewsGridScalper.mq5	372	22
+undeclared identifier 'signal'	GroqNewsGridScalper.mq5	414	22
+'signal' - cannot convert enum	GroqNewsGridScalper.mq5	414	22
+undeclared identifier 'signal'	GroqNewsGridScalper.mq5	419	27
+'signal' - cannot convert enum	GroqNewsGridScalper.mq5	419	27
+undeclared identifier 'signal'	GroqNewsGridScalper.mq5	524	78
+'signal' - cannot convert enum	GroqNewsGridScalper.mq5	524	78
+undeclared identifier 'signal'	GroqNewsGridScalper.mq5	528	84
+'signal' - cannot convert enum	GroqNewsGridScalper.mq5	528	84
+undeclared identifier 'signal'	GroqNewsGridScalper.mq5	784	62
+cannot convert enum	GroqNewsGridScalper.mq5	784	62
+   string GetSignalText(ENUM_SIGNAL_TYPE)	GroqNewsGridScalper.mq5	818	8
+implicit conversion from 'unknown' to 'string'	GroqNewsGridScalper.mq5	784	36
+33 errors, 13 warnings		33	13
