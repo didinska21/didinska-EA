@@ -1,27 +1,76 @@
-GroqNewsGridScalper.mq5			
-Trade.mqh			
-Object.mqh			
-StdLibErr.mqh			
-OrderInfo.mqh			
-HistoryOrderInfo.mqh			
-PositionInfo.mqh			
-DealInfo.mqh			
-AccountInfo.mqh			
-NewsAPI.mqh			
-ArrayString.mqh			
-Array.mqh			
-GroqAI.mqh			
-implicit conversion from 'bool' to 'string'	NewsAPI.mqh	222	34
-implicit conversion from 'bool' to 'string'	NewsAPI.mqh	564	28
-possible loss of data due to type conversion from 'long' to 'int'	NewsAPI.mqh	596	16
-possible loss of data due to type conversion from 'long' to 'int'	NewsAPI.mqh	597	17
-possible loss of data due to type conversion from 'long' to 'int'	NewsAPI.mqh	598	15
-possible loss of data due to type conversion from 'long' to 'int'	NewsAPI.mqh	599	16
-possible loss of data due to type conversion from 'long' to 'int'	NewsAPI.mqh	600	15
-possible loss of data due to type conversion from 'long' to 'int'	NewsAPI.mqh	601	15
-implicit conversion from 'ushort' to 'string'	GroqAI.mqh	584	19
-implicit conversion from 'ushort' to 'string'	GroqAI.mqh	604	19
-possible loss of data due to type conversion from 'long' to 'double'	GroqNewsGridScalper.mq5	198	25
-possible loss of data due to type conversion from 'long' to 'double'	GroqNewsGridScalper.mq5	212	25
-code generated			0
-0 errors, 12 warnings, 6349 ms elapsed, cpu='AVX2 + FMA3'			12
+2026.09.14 21:33:23.818	GroqNewsGridScalper (XAUUSD,H1)	GroqAI: Connected successfully
+2026.09.14 21:33:23.846	GroqNewsGridScalper (XAUUSD,H1)	NewsAPI: Connection failed - using offline mode
+2026.09.14 21:33:24.634	GroqNewsGridScalper (XAUUSD,H1)	GroqNewsGridScalper V2 Initialized
+2026.09.14 21:33:24.634	GroqNewsGridScalper (XAUUSD,H1)	AI Analysis: ENABLED
+2026.09.14 21:33:24.634	GroqNewsGridScalper (XAUUSD,H1)	News Filter: ENABLED
+2026.09.14 21:33:24.634	GroqNewsGridScalper (XAUUSD,H1)	New trading day started. Balance: 2366.05
+2026.09.14 21:33:24.634	GroqNewsGridScalper (XAUUSD,H1)	AI Analysis Updated: Risk=0.00 Signal=SIGNAL_NONE
+2026.09.14 21:38:24.037	GroqNewsGridScalper (XAUUSD,H1)	AI Analysis Updated: Risk=0.00 Signal=SIGNAL_NONE
+2026.09.14 21:43:27.214	GroqNewsGridScalper (XAUUSD,H1)	AI Analysis Updated: Risk=0.00 Signal=SIGNAL_NONE
+2026.09.14 21:48:27.452	GroqNewsGridScalper (XAUUSD,H1)	AI Analysis Updated: Risk=0.00 Signal=SIGNAL_NONE
+2026.09.14 21:53:27.123	GroqNewsGridScalper (XAUUSD,H1)	AI Analysis Updated: Risk=0.00 Signal=SIGNAL_NONE
+2026.09.14 21:58:27.693	GroqNewsGridScalper (XAUUSD,H1)	AI Analysis Updated: Risk=0.00 Signal=SIGNAL_NONE
+2026.09.14 22:03:27.147	GroqNewsGridScalper (XAUUSD,H1)	AI Analysis Updated: Risk=0.00 Signal=SIGNAL_NONE
+2026.09.14 22:08:27.505	GroqNewsGridScalper (XAUUSD,H1)	AI Analysis Updated: Risk=0.00 Signal=SIGNAL_NONE
+2026.09.14 22:13:27.178	GroqNewsGridScalper (XAUUSD,H1)	AI Analysis Updated: Risk=0.00 Signal=SIGNAL_NONE
+2026.09.14 22:18:27.694	GroqNewsGridScalper (XAUUSD,H1)	AI Analysis Updated: Risk=0.00 Signal=SIGNAL_NONE
+2026.09.14 22:23:30.437	GroqNewsGridScalper (XAUUSD,H1)	AI Analysis Updated: Risk=0.00 Signal=SIGNAL_NONE
+2026.09.14 22:28:34.603	GroqNewsGridScalper (XAUUSD,H1)	AI Analysis Updated: Risk=0.00 Signal=SIGNAL_NONE
+2026.09.14 22:33:34.103	GroqNewsGridScalper (XAUUSD,H1)	AI Analysis Updated: Risk=0.00 Signal=SIGNAL_NONE
+2026.09.14 22:38:34.109	GroqNewsGridScalper (XAUUSD,H1)	AI Analysis Updated: Risk=0.00 Signal=SIGNAL_NONE
+2026.09.14 22:43:35.177	GroqNewsGridScalper (XAUUSD,H1)	AI Analysis Updated: Risk=0.00 Signal=SIGNAL_NONE
+2026.09.14 22:48:35.096	GroqNewsGridScalper (XAUUSD,H1)	AI Analysis Updated: Risk=0.00 Signal=SIGNAL_NONE
+2026.09.14 22:53:38.134	GroqNewsGridScalper (XAUUSD,H1)	AI Analysis Updated: Risk=0.00 Signal=SIGNAL_NONE
+2026.09.14 22:58:38.522	GroqNewsGridScalper (XAUUSD,H1)	AI Analysis Updated: Risk=0.00 Signal=SIGNAL_NONE
+2026.09.14 23:03:38.032	GroqNewsGridScalper (XAUUSD,H1)	AI Analysis Updated: Risk=0.00 Signal=SIGNAL_NONE
+2026.09.14 23:08:38.031	GroqNewsGridScalper (XAUUSD,H1)	AI Analysis Updated: Risk=0.00 Signal=SIGNAL_NONE
+2026.09.14 23:10:48.430	Experts	automated trading is enabled
+2026.09.14 23:13:41.060	GroqNewsGridScalper (XAUUSD,H1)	AI Analysis Updated: Risk=0.00 Signal=SIGNAL_NONE
+2026.09.14 23:18:41.102	GroqNewsGridScalper (XAUUSD,H1)	AI Analysis Updated: Risk=0.00 Signal=SIGNAL_NONE
+2026.09.14 23:23:41.080	GroqNewsGridScalper (XAUUSD,H1)	AI Analysis Updated: Risk=0.00 Signal=SIGNAL_NONE
+2026.09.14 23:28:41.116	GroqNewsGridScalper (XAUUSD,H1)	AI Analysis Updated: Risk=0.00 Signal=SIGNAL_NONE
+2026.09.14 23:33:41.180	GroqNewsGridScalper (XAUUSD,H1)	AI Analysis Updated: Risk=0.00 Signal=SIGNAL_NONE
+2026.09.14 23:38:43.618	GroqNewsGridScalper (XAUUSD,H1)	AI Analysis Updated: Risk=0.00 Signal=SIGNAL_NONE
+2026.09.14 23:43:43.582	GroqNewsGridScalper (XAUUSD,H1)	AI Analysis Updated: Risk=0.00 Signal=SIGNAL_NONE
+2026.09.14 23:48:43.326	GroqNewsGridScalper (XAUUSD,H1)	AI Analysis Updated: Risk=0.00 Signal=SIGNAL_NONE
+2026.09.14 23:53:43.093	GroqNewsGridScalper (XAUUSD,H1)	AI Analysis Updated: Risk=0.00 Signal=SIGNAL_NONE
+2026.09.14 23:58:43.318	GroqNewsGridScalper (XAUUSD,H1)	AI Analysis Updated: Risk=0.00 Signal=SIGNAL_NONE
+2026.09.15 00:03:43.007	GroqNewsGridScalper (XAUUSD,H1)	AI Analysis Updated: Risk=0.00 Signal=SIGNAL_NONE
+2026.09.15 00:08:50.082	GroqNewsGridScalper (XAUUSD,H1)	AI Analysis Updated: Risk=0.00 Signal=SIGNAL_NONE
+2026.09.15 00:13:50.254	GroqNewsGridScalper (XAUUSD,H1)	AI Analysis Updated: Risk=0.00 Signal=SIGNAL_NONE
+2026.09.15 00:18:50.526	GroqNewsGridScalper (XAUUSD,H1)	AI Analysis Updated: Risk=0.00 Signal=SIGNAL_NONE
+2026.09.15 00:23:51.821	GroqNewsGridScalper (XAUUSD,H1)	AI Analysis Updated: Risk=0.00 Signal=SIGNAL_NONE
+2026.09.15 00:28:51.106	GroqNewsGridScalper (XAUUSD,H1)	AI Analysis Updated: Risk=0.00 Signal=SIGNAL_NONE
+2026.09.15 00:33:51.511	GroqNewsGridScalper (XAUUSD,H1)	AI Analysis Updated: Risk=0.00 Signal=SIGNAL_NONE
+2026.09.15 00:38:51.053	GroqNewsGridScalper (XAUUSD,H1)	AI Analysis Updated: Risk=0.00 Signal=SIGNAL_NONE
+2026.09.15 00:43:54.699	GroqNewsGridScalper (XAUUSD,H1)	AI Analysis Updated: Risk=0.00 Signal=SIGNAL_NONE
+2026.09.15 00:48:54.174	GroqNewsGridScalper (XAUUSD,H1)	AI Analysis Updated: Risk=0.00 Signal=SIGNAL_NONE
+2026.09.15 00:53:53.993	GroqNewsGridScalper (XAUUSD,H1)	AI Analysis Updated: Risk=0.00 Signal=SIGNAL_NONE
+2026.09.15 00:58:54.088	GroqNewsGridScalper (XAUUSD,H1)	AI Analysis Updated: Risk=0.00 Signal=SIGNAL_NONE
+2026.09.15 01:03:54.304	GroqNewsGridScalper (XAUUSD,H1)	AI Analysis Updated: Risk=0.00 Signal=SIGNAL_NONE
+2026.09.15 01:08:54.043	GroqNewsGridScalper (XAUUSD,H1)	AI Analysis Updated: Risk=0.00 Signal=SIGNAL_NONE
+2026.09.15 01:13:53.988	GroqNewsGridScalper (XAUUSD,H1)	AI Analysis Updated: Risk=0.00 Signal=SIGNAL_NONE
+2026.09.15 01:18:53.970	GroqNewsGridScalper (XAUUSD,H1)	AI Analysis Updated: Risk=0.00 Signal=SIGNAL_NONE
+2026.09.15 01:23:54.347	GroqNewsGridScalper (XAUUSD,H1)	AI Analysis Updated: Risk=0.00 Signal=SIGNAL_NONE
+2026.09.15 01:28:53.961	GroqNewsGridScalper (XAUUSD,H1)	AI Analysis Updated: Risk=0.00 Signal=SIGNAL_NONE
+2026.09.15 01:33:54.002	GroqNewsGridScalper (XAUUSD,H1)	AI Analysis Updated: Risk=0.00 Signal=SIGNAL_NONE
+2026.09.15 01:38:53.971	GroqNewsGridScalper (XAUUSD,H1)	AI Analysis Updated: Risk=0.00 Signal=SIGNAL_NONE
+2026.09.15 01:43:56.990	GroqNewsGridScalper (XAUUSD,H1)	AI Analysis Updated: Risk=0.00 Signal=SIGNAL_NONE
+2026.09.15 01:48:56.978	GroqNewsGridScalper (XAUUSD,H1)	AI Analysis Updated: Risk=0.00 Signal=SIGNAL_NONE
+2026.09.15 01:54:04.036	GroqNewsGridScalper (XAUUSD,H1)	AI Analysis Updated: Risk=0.00 Signal=SIGNAL_NONE
+2026.09.15 01:59:04.138	GroqNewsGridScalper (XAUUSD,H1)	AI Analysis Updated: Risk=0.00 Signal=SIGNAL_NONE
+2026.09.15 02:04:03.985	GroqNewsGridScalper (XAUUSD,H1)	AI Analysis Updated: Risk=0.00 Signal=SIGNAL_NONE
+2026.09.15 02:09:04.219	GroqNewsGridScalper (XAUUSD,H1)	AI Analysis Updated: Risk=0.00 Signal=SIGNAL_NONE
+2026.09.15 02:14:04.139	GroqNewsGridScalper (XAUUSD,H1)	AI Analysis Updated: Risk=0.00 Signal=SIGNAL_NONE
+2026.09.15 02:19:03.962	GroqNewsGridScalper (XAUUSD,H1)	AI Analysis Updated: Risk=0.00 Signal=SIGNAL_NONE
+2026.09.15 02:24:03.993	GroqNewsGridScalper (XAUUSD,H1)	AI Analysis Updated: Risk=0.00 Signal=SIGNAL_NONE
+2026.09.15 02:29:04.054	GroqNewsGridScalper (XAUUSD,H1)	AI Analysis Updated: Risk=0.00 Signal=SIGNAL_NONE
+2026.09.15 02:34:04.709	GroqNewsGridScalper (XAUUSD,H1)	AI Analysis Updated: Risk=0.00 Signal=SIGNAL_NONE
+2026.09.15 02:39:07.071	GroqNewsGridScalper (XAUUSD,H1)	AI Analysis Updated: Risk=0.00 Signal=SIGNAL_NONE
+2026.09.15 02:44:06.974	GroqNewsGridScalper (XAUUSD,H1)	AI Analysis Updated: Risk=0.00 Signal=SIGNAL_NONE
+2026.09.15 02:49:06.986	GroqNewsGridScalper (XAUUSD,H1)	AI Analysis Updated: Risk=0.00 Signal=SIGNAL_NONE
+2026.09.15 02:54:18.388	GroqNewsGridScalper (XAUUSD,H1)	AI Analysis Updated: Risk=0.00 Signal=SIGNAL_NONE
+2026.09.15 02:59:18.206	GroqNewsGridScalper (XAUUSD,H1)	AI Analysis Updated: Risk=0.00 Signal=SIGNAL_NONE
+2026.09.15 03:04:21.157	GroqNewsGridScalper (XAUUSD,H1)	AI Analysis Updated: Risk=0.00 Signal=SIGNAL_NONE
+2026.09.15 03:09:21.303	GroqNewsGridScalper (XAUUSD,H1)	AI Analysis Updated: Risk=0.00 Signal=SIGNAL_NONE
+2026.09.15 03:14:21.192	GroqNewsGridScalper (XAUUSD,H1)	AI Analysis Updated: Risk=0.00 Signal=SIGNAL_NONE
